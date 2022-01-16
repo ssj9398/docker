@@ -131,3 +131,117 @@ Docker는 가상머신에 설치됨
 
 </details>
 </br>
+
+<details markdown="1">
+<summary>2. 도커 기본 명령어</summary>
+
+## 2. 도커 기본 명령어
+### run -컨테이너 실행
+
+```
+docker run [OPTIONS] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
+```
+
+|명령어|내용|
+|------|---|
+|-d|detached mode (백그라운드 모드)|
+|-p|호스트와 컨테이너의 포트를 연결|
+|-v|호스트와 컨테이너의 디렉토리를 연결|
+|-e|컨테이너 내에서 사용할 환경변수 설정|
+|--name|컨테이너 이름 설정|
+|--rm|프로세스 종료시 컨테이너 자동 제거|
+|-it|-i와 -t를 동시에 사용한 것으로 터미널 입력을 위한 옵션|
+|--network|네트워크 연결|
+
+### ubuntu 20.04 컨테이너 만들기
+```
+docker run ubuntu:20.04
+```
+- run 명령어를 사용하면 사용할 이미지가 저장되어 있는지 확인하고 없다면 다운로드
+(pull) 한 후 컨테이너를 생성(create)하고 시작(start)합니다.
+- 컨테이너는 정상적으로 실행됐지만 뭘 하라고 명령어를 전달하지 않았기 때문에 컨테
+이너는 생성되자마자 종료됩니다. 
+- 컨테이너는 프로세스이기 때문에 실행중인 프로세
+스가 없으면 컨테이너는 종료됩니다.
+- 조금 더 자세하게 설명하면 도커 이미지마다 컨테이너가 만들어질때 실행할 명령어를
+지정할 수 있고 ubuntu:20.04는 "/bin/bash"가 지정되어 쉘이 실행되야 하지만, 입
+력을 받을 수 있도록 "-it"옵션을 입력하지 않았기 때문에 바로 실행이 종료되었습니
+다.
+
+### /bin/sh 실행하기
+```
+docker run --rm -it ubuntu:20.04 /bin/sh
+```
+
+- 컨테이너 내부에 들어가기 위해 sh를 실행하고 키보드 입력을 위해 -it 옵션을 줍니다.
+- 추가적으로 프로세스가 종료되면 컨테이너가 자동으로 삭제되도록 --rm 옵션도 추가
+합니다.
+- --rm 옵션이 없다면 컨테이너가 종료되더라도 삭제되지 않고 남아 있어 수동으로 삭제
+해야 합니다.
+
+### CentOS 실행하기
+```
+docker run --rm -it centos:8 /bin/sh
+```
+
+- 도커는 다양한 리눅스 배포판을 실행할 수 있습니다. 
+- 공통점은 모두 동일한 커널을 사용한다는 점입니다.
+- Ubuntu 또는 CentOS에 포함된 다양한 기본기능이 필요 없는 경우, Alpine 이라는 초
+소형 (5MB) 이미지를 사용할 수도 있습니다.
+
+### 웹 어플리케이션 실행하기
+```
+docker run --rm -p 5678:5678 hashicorp/http-echo -text="hello world"
+```
+- detached mode(백그라운드 모드)로 실행하기 위해 -d 옵션을 추가하고 -p 옵션을
+추가하여 컨테이너 포트를 호스트의 포트로 연결하였습니다.
+- 브라우저를 열고 localhost:5678에 접속하면 메시지를 볼 수 있습니다.
+
+### Redis 실행하기
+```
+docker run --rm -p 1234:6379 redis
+```
+- Redis라는 메모리기반 데이터베이스를 실행합니다.
+```
+$ telnet localhost 1234 # telnet이 설치되어 있다면..
+set hello world
++OK
+get hello
+$5
+world
+quit
+```
+
+### MySQL 실행하기
+```
+docker run -d -p 3306:3306 \
+ -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+ --name mysql \
+ mysql:5.7
+```
+- Mysql 실행
+```
+docker exec -it mysql mysql
+create database wp CHARACTER SET utf8;
+grant all privileges on wp.* to wp@'%' identified by 'wp';
+flush privileges;
+quit
+```
+
+### exec 명령어
+- exec 명령어는 run 명령어와 달리 실행중인 도커 컨테이너에 접속할 때 사용하며 컨테
+이너 안에 ssh server등을 설치하지 않고 exec 명령어로 접속합니다.
+
+### 워드프레스 블로그 실행하기
+```
+docker run -d -p 8080:80 \
+ -e WORDPRESS_DB_HOST=host.docker.internal \
+ -e WORDPRESS_DB_NAME=wp \
+ -e WORDPRESS_DB_USER=wp \
+ -e WORDPRESS_DB_PASSWORD=wp \
+ wordpress
+```
+- 앞에서 만든 MySQL을 실행한 상태에서 생성합니다.
+- 웹브라우저 localhost:8080으로 접속합니다.
+</details>
+</br>
