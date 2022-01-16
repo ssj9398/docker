@@ -388,10 +388,10 @@ docker run -d -p 8080:80 \
 </br>
 
 <details markdown="1">
-<summary>3. 도커 기본 명령어(ps, stop, rm, logs, images,...)</summary>
+<summary>4. 도커 기본 명령어(volume)</summary>
 
-## 3. 도커 기본 명령어(volume)
-### 3. 도커 기본 명령어(volume)
+## 4. 도커 기본 명령어(volume)
+### volume mount (-v) 명령어
 ```
 docker stop mysql
 docker rm mysql
