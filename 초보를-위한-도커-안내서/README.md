@@ -411,6 +411,9 @@ docker run -d -p 3306:3306 \
 </details>
 </br>
 
+<details markdown="1">
+<summary>5. 도커 컴포즈 (docker compose)</summary>
+
 ## 5. 도커 컴포즈 (docker compose)
 ### 설치 확인
 ```
