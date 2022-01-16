@@ -117,6 +117,9 @@
 </br>
 
 # 2. 도커 설치부터 실행
+<details markdown="1">
+<summary>1. 도커 설치하기</summary>
+
 ## 1. 도커 설치하기
 ### MacOS or Windows
 - 도커는 기본적으로 linux를 지원하기 때문에 MacOS와 Windows에 설치되는
