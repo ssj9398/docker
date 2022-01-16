@@ -655,3 +655,26 @@ django:
     - wordpress 컨테이너만 build
 </details>
 </br>
+
+<details markdown="1">
+<summary>8. nginx 컨테이너 만들기</summary>
+
+## 8. nginx 컨테이너 만들기
+
+**index.html**
+
+```
+hello world
+```
+
+**run**
+
+```
+$ docker run -d --rm \
+  -p 50000:80 \
+  -v $(pwd)/index.html:/usr/share/nginx/html/index.html \
+  nginx
+```
+
+</details>
+</br>
