@@ -410,6 +410,64 @@ docker run -d -p 3306:3306 \
 
 </br>
 
+## 5. 도커 컴포즈 (docker compose)
+### 설치 확인
+```
+$ docker-compose version
+docker-compose version 1.26.2, build eefe0d31
+docker-py version: 4.2.2
+CPython version: 3.7.7
+OpenSSL version: OpenSSL 1.1.1g 21 Apr 2020
+```
+- Linux는 다음 명령어로 설치합니다.
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/
+docker-compose-$(uname -s)
+sudo chmod +x /usr/local/bin/docker-compose
+```
 
+</br>
+
+### docker-compose.yml
+```
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+  wordpress:
+    image: wordpress:latest
+    volumes:
+      - ./wp:/var/www/html
+    ports:
+      - "8000:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_PASSWORD: wordpress
+```
+
+</br>
+
+### up 명령어
+```
+docker-compose up -d
+```
+- docker compose를 이용하여 mysql과 wordpress를 실행합니다.
+
+</br>
+
+### down 명령어
+```
+docker-compose down
+```
+- docker compose를 이용하여 mysql과 wordpress를 종료합니다
 </details>
 </br>
