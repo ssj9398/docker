@@ -56,10 +56,14 @@
 - 특정 회사나 서비스에 종속적이지 않음
 - 쉽게 개발서버를 만들 수 있고 테스트서버 생성도 간편함
 
+</br>
+
 ### 도커의 특징 - 표준성
 - 도커를 사용하지 않는 경우 ruby, nodejs, go, php로 만든 서비스들의 배포 방식은
 제각각 다름
 - 컨테이너라는 표준으로 서버를 배포하므로 모든 서비스들의 배포과정이 동일해짐
+
+</br>
 
 ### 도커의 특징 - 이미지
 - 이미지에서 컨테이너를 생성하기 때문에 반드시 이미지를 만드는 과정이 필요
@@ -67,15 +71,21 @@
 - 빌드 서버에서 이미지를 만들면 해당 이미지를 이미지 저장소에 저장하고 운영서버
 에서 이미지를 불러옴
 
+</br>
+
 ### 도커의 특징 - 설정관리
 - 설정은 보통 환경변수로 제어함
 - MYSQL_PASS=password와 같이 컨테이너를 띄울때 환경변수를 같이 지정
 - 하나의 이미지가 환경변수에 따라 동적으로 설정파일을 생성하도록 만들어져야함
 
+</br>
+
 ### 도커의 특징 - 자원관리
  컨테이너는 삭제 후 새로 만들면 모든 데이터가 초기화됨
 - 업로드 파일을 외부 스토리지와 링크하여 사용하거나 S3같은 별도의 저장소가 필요
 - 세션이나 캐시를 memcached나 redis와 같은 외부로 분리
+
+</br>
 
 ### 도커가 가져온 변화
 - 클라우드 이미지보다 관리하기 쉬움
@@ -99,11 +109,15 @@
 - 컨테이너 개수를 여러 개로 늘리면 적당히 나눠서 배포하고 서버가 죽으면 실행 중
 이던 컨테이너를 다른 서버에 띄워줌
 
+</br>
+
 ### 클러스터링
 - 여러 개의 서버를 하나의 서버처럼 사용
 - 작게는 몇 개 안 되는 서버부터 많게는 수천 대의 서버를 하나의 클러스터로
 - 여기저기 흩어져 있는 컨테이너도 가상 네트워크를 이용하여 마치 같은 서버에 있
 는 것처럼 쉽게 통신
+
+</br>
 
 ### 서비스 디스커버리
 - 서비스를 찾아주는 기능
@@ -153,6 +167,8 @@ docker run [OPTIONS] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
 |-it|-i와 -t를 동시에 사용한 것으로 터미널 입력을 위한 옵션|
 |--network|네트워크 연결|
 
+</br>
+
 ### ubuntu 20.04 컨테이너 만들기
 ```
 docker run ubuntu:20.04
@@ -168,6 +184,8 @@ docker run ubuntu:20.04
 력을 받을 수 있도록 "-it"옵션을 입력하지 않았기 때문에 바로 실행이 종료되었습니
 다.
 
+</br>
+
 ### /bin/sh 실행하기
 ```
 docker run --rm -it ubuntu:20.04 /bin/sh
@@ -179,6 +197,8 @@ docker run --rm -it ubuntu:20.04 /bin/sh
 - --rm 옵션이 없다면 컨테이너가 종료되더라도 삭제되지 않고 남아 있어 수동으로 삭제
 해야 합니다.
 
+</br>
+
 ### CentOS 실행하기
 ```
 docker run --rm -it centos:8 /bin/sh
@@ -189,6 +209,8 @@ docker run --rm -it centos:8 /bin/sh
 - Ubuntu 또는 CentOS에 포함된 다양한 기본기능이 필요 없는 경우, Alpine 이라는 초
 소형 (5MB) 이미지를 사용할 수도 있습니다.
 
+</br>
+
 ### 웹 어플리케이션 실행하기
 ```
 docker run --rm -p 5678:5678 hashicorp/http-echo -text="hello world"
@@ -196,6 +218,8 @@ docker run --rm -p 5678:5678 hashicorp/http-echo -text="hello world"
 - detached mode(백그라운드 모드)로 실행하기 위해 -d 옵션을 추가하고 -p 옵션을
 추가하여 컨테이너 포트를 호스트의 포트로 연결하였습니다.
 - 브라우저를 열고 localhost:5678에 접속하면 메시지를 볼 수 있습니다.
+
+</br>
 
 ### Redis 실행하기
 ```
@@ -211,6 +235,8 @@ $5
 world
 quit
 ```
+
+</br>
 
 ### MySQL 실행하기
 ```
@@ -228,9 +254,13 @@ flush privileges;
 quit
 ```
 
+</br>
+
 ### exec 명령어
 - exec 명령어는 run 명령어와 달리 실행중인 도커 컨테이너에 접속할 때 사용하며 컨테
 이너 안에 ssh server등을 설치하지 않고 exec 명령어로 접속합니다.
+
+</br>
 
 ### 워드프레스 블로그 실행하기
 ```
@@ -243,5 +273,116 @@ docker run -d -p 8080:80 \
 ```
 - 앞에서 만든 MySQL을 실행한 상태에서 생성합니다.
 - 웹브라우저 localhost:8080으로 접속합니다.
+</details>
+</br>
+
+<details markdown="1">
+<summary>2. 도커 기본 명령어</summary>
+
+## 도커 기본 명령어(ps, stop, rm, logs, images, ...)
+### ps 명령어
+```
+docker ps
+```
+- 실행중인 컨테이너 목록을 확인하는 명령어 입니다.
+```
+docker ps -a
+```
+- 중지된 컨테이너도 확인하려면 -a 옵션을 붙입니다
+
+</br>
+
+### stop 명령어
+```
+docker stop [OPTIONS] CONTAINER [CONTAINER...]
+```
+- 실행중인 컨테이너를 중지하는 명령어 입니다.
+- 실행중인 컨테이너를 하나 또는 여러개 (띄어쓰기) 중지할 수 있습니다.
+
+</br>
+
+### rm 명령어
+```
+docker rm [OPTIONS] CONTAINER [CONTAINER...]
+```
+- 종료된 컨테이너를 완전히 제거하는 명령어 입니다.
+- mysql, wordpress를 제외한 컨테이너를 제거하세요.
+
+</br>
+
+### logs 명령어
+```
+docker logs [OPTIONS] CONTAINER
+```
+- 컨테이너가 정상적으로 동작하는지 확인하는 좋은 방법은 로그를 확인하는 것 입니다.
+- 기본 옵션과 -f, --tail 옵션을 살펴보니다.
+
+</br>
+
+### images 명령어
+```
+docker images [OPTIONS] [REPOSITORY[:TAG]]
+```
+- 도커가 다운로드한 이미지 목록을 보는 명령어입니다.
+
+</br>
+
+### pull 명령어
+```
+docker pull [OPTIONS] NAME[:TAG|@DIGEST]
+```
+- 이미지를 삭제하는 방법 입니다.
+```
+docker pull ubuntu:18.04
+```
+
+</br>
+
+### rmi 명령어
+```
+docker rmi [OPTIONS] IMAGE [IMAGE...]
+```
+- 이미지를 삭제하는 방법입니다.
+- images 명령어를 통해 얻는 이미지 목록에서 이미지 ID를 입력하면 삭제가 됩니다. 단,
+컨테이너가 실행중인 이미지는 삭제되지 않습니다.
+
+</br>
+
+### network create 명령어
+```
+docker network create [OPTIONS] NETWORK
+```
+- 도커 컨테이너끼리 이름으로 통신할 수 있는 가상 네트워크를 만듭니다.
+```
+docker network create app-network
+```
+- app-network 라는 이름으로 wordpress와 mysql이 통신할 네트워크를 만듭니다.
+
+</br>
+
+### network connect 명령어
+```
+docker network connect [OPTIONS] NETWORK CONTAINER
+```
+- 기존에 생성된 컨테이너에 네트워크를 추가합니다.
+```
+docker network connect app-network mysql
+```
+- mysql 컨테이너에 네트워크를 추가합니다.
+
+</br>
+
+### network option 명령어
+```
+docker run -d -p 8080:80 \
+ --network=app-network \
+ -e WORDPRESS_DB_HOST=mysql \
+ -e WORDPRESS_DB_NAME=wp \
+ -e WORDPRESS_DB_USER=wp \
+ -e WORDPRESS_DB_PASSWORD=wp \
+ wordpress
+```
+
+- 워드프레스를 app-network에 속하게 하고 mysql을 이름으로 접근합니다.
 </details>
 </br>
