@@ -147,9 +147,9 @@ Docker는 가상머신에 설치됨
 </br>
 
 <details markdown="1">
-<summary>2. 도커 기본 명령어</summary>
+<summary>2. 도커 기본 명령어(run)</summary>
 
-## 2. 도커 기본 명령어
+## 2. 도커 기본 명령어(run)
 ### run -컨테이너 실행
 
 ```
@@ -277,9 +277,9 @@ docker run -d -p 8080:80 \
 </br>
 
 <details markdown="1">
-<summary>2. 도커 기본 명령어</summary>
+<summary>3. 도커 기본 명령어(ps, stop, rm, logs, images,...)</summary>
 
-## 도커 기본 명령어(ps, stop, rm, logs, images, ...)
+## 3. 도커 기본 명령어(ps, stop, rm, logs, images,...)
 ### ps 명령어
 ```
 docker ps
@@ -384,5 +384,32 @@ docker run -d -p 8080:80 \
 ```
 
 - 워드프레스를 app-network에 속하게 하고 mysql을 이름으로 접근합니다.
+</details>
+</br>
+
+<details markdown="1">
+<summary>3. 도커 기본 명령어(ps, stop, rm, logs, images,...)</summary>
+
+## 3. 도커 기본 명령어(volume)
+### 3. 도커 기본 명령어(volume)
+```
+docker stop mysql
+docker rm mysql
+docker run -d -p 3306:3306 \
+ -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+ --network=app-network \
+ --name mysql \
+ -v /Users/subicura/Workspace/github.com/subicura/docker-guide/ch02/mysql:/var/lib/mysql \
+ mysql:5.7
+```
+- mysql을 삭제후에 다시 실행하면 데이터베이스 오류가 발생합니다.
+
+```
+-v /my/own/datadir:/var/lib/mysql
+```
+
+</br>
+
+
 </details>
 </br>
