@@ -1,7 +1,7 @@
-# 도커란 무엇인가
+#1. 도커란 무엇인가
 
 <details markdown="1">
-<summary>서버를 관리한다는 것</summary>
+<summary>1. 서버를 관리한다는 것</summary>
 
 ## 1. 서버를 관리한다는것
 
@@ -14,21 +14,34 @@
 </br>
 
 <details markdown="1">
-<summary>도커 컨테이너 생성 데모</summary>
+<summary>2. 도커 컨테이너 생성 데모</summary>
 
 </details>
 </br>
 
 <details markdown="1">
-<summary>서버관리 방식의 변화</summary>
+<summary>3. 서버관리 방식의 변화</summary>
 
 ## 1. 서버관리 방식의 변화
 
-### 개요
 - 가상머신처럼 독립적으로 실행되지만
 - 가상머신보다 빠르고
 - 가상머신보다 쉽고
 - 가상머신보다 효율적입니다
+
+</details>
+</br>
+
+<details markdown="1">
+<summary>4. 도커의 등장</summary>
+
+## 1. 도커의 등장
+
+- 2013년에 DotCloud(현 Docker)에서 첫 공개
+- 컨테이너: 격리된 환경에서 작동하는 프로세스
+- 리눅스 커널의 여러 기술을 활용
+- 하드웨어 가상화 기술보다 가벼움
+- 이미지 단위로 프로세스 실행 환경을 구성
 
 </details>
 </br>
