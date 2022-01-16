@@ -408,6 +408,7 @@ docker run -d -p 3306:3306 \
 -v /my/own/datadir:/var/lib/mysql
 ```
 
+</details>
 </br>
 
 ## 5. 도커 컴포즈 (docker compose)
