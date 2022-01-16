@@ -1,4 +1,4 @@
-#1. 도커란 무엇인가
+# 1. 도커란 무엇인가
 
 <details markdown="1">
 <summary>1. 서버를 관리한다는 것</summary>
