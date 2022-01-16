@@ -678,3 +678,40 @@ $ docker run -d --rm \
 
 </details>
 </br>
+
+<details markdown="1">
+<summary>9. php cli 컨테이너 실행하기</summary>
+
+## 9. php cli 컨테이너 실행하기
+### Cli
+
+**hello.php**
+
+```
+<?php phpinfo() ?>
+```
+
+**run**
+
+```
+$ docker run --rm \
+  -v $(pwd)/hello.php:/app/hello.php \
+  php:7 \
+  php /app/hello.php
+
+```
+
+### docker-compose
+```yml
+version: '2'
+
+services:
+  app:
+    image: php:7
+    volumes:
+      - ./hello.php:/app/hello.php
+    command: "php /app/hello.php"
+```
+
+</details>
+</br>
