@@ -1001,7 +1001,7 @@ CMD command param1 param2
   </details>
 
   <details markdown="1">
-<summary>3. 이미지 저장소</summary>
+<summary>4. 도커 배포 기본</summary>
 
 ## 4. 도커 배포 기본
 ### 배포하기
