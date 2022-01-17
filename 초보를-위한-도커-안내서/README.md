@@ -980,12 +980,15 @@ CMD command param1 param2
 
 </br>
 
+<details markdown="1">
+<summary>3. 이미지 저장소</summary>
+
 ## 3. 이미지 저장소
 ### 이미지 저장 명령어
 - docker login
 - docker push {ID}/example
 - docker pull {ID}/example
-</details>
+
 
 </br>
 
@@ -993,4 +996,6 @@ CMD command param1 param2
 - hub.docker.com
 - 내이미지를 도커허브에 올리고 누구나 받을수 있다. 
   - 깃허브 처름 private이 있으나 무료버전은 하나밖에 사용불가
+
+  </details>
 </br>
