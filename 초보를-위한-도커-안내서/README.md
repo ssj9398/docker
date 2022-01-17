@@ -978,6 +978,7 @@ CMD command param1 param2
 - CMD ["node", "app.js"]
 - CMD node app.js
 
+</details>
 </br>
 
 <details markdown="1">
