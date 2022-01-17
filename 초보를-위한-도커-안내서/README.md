@@ -798,9 +798,3 @@ $ docker images | grep ubuntu
 ```
 </details>
 </br>
-
-<details markdown="1">
-<summary>2. 도커 컨테이너 생성 데모</summary>
-
-</details>
-</br>
