@@ -798,3 +798,185 @@ $ docker images | grep ubuntu
 ```
 </details>
 </br>
+
+<details markdown="1">
+<summary>2. 도커 이미지 만들기 - 웹 애플리케이션 (nodejs)</summary>
+
+## 2. 도커 이미지 만들기 - 웹 애플리케이션 (nodejs)
+
+### Nodejs 웹 애플리케이션
+```
+$ npm init
+$ npm i fastify --save
+```
+- https://www.fastify.io/docs/latest/Getting-Started/
+- 소스 파일 복사 > COPY 명령어
+- node_modules 제외 > .dockerignore
+
+- app.js
+```js
+// Require the framework and instantiate it
+const fastify = require('fastify')({
+ logger: true
+})
+// Declare a route
+fastify.get('/', function (request, reply) {
+ reply.send({ hello: 'world' })
+})
+// Run the server!
+fastify.listen(3000, '0.0.0.0', function (err, address) {
+ if (err) {
+ fastify.log.error(err)
+ process.exit(1)
+ }
+ fastify.log.info(`server listening on ${address}`)
+})
+
+```
+
+</br>
+
+- Dockerfile
+```
+# 1. node 설치
+FROM ubuntu:20.04
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm
+# 2. 소스 복사
+COPY . /usr/src/app
+# 3. Nodejs 패키지 설치
+WORKDIR /usr/src/app
+RUN npm install
+# 4. WEB 서버 실행 (Listen 포트 정의)
+EXPOSE 3000
+CMD node app.js
+```
+
+
+- .dockerignore
+```
+node_modules/*
+```
+
+- 이미지 빌드하기
+```
+docker build -t subicura/app .
+```
+
+- 컨테이너 실행하기
+```
+docker run --rm -d -p 3000:3000 subicura/app
+```
+
+</br>
+
+- Dockerfile(v2)
+```
+# 1. node 이미지 사용
+FROM node:12
+# 2. 소스 복사
+COPY . /usr/src/app
+# 3. Nodejs 패키지 설치
+WORKDIR /usr/src/app
+RUN npm install
+# 4. WEB 서버 실행 (Listen 포트 정의)
+EXPOSE 3000
+CMD node app.js
+```
+
+</br>
+
+- Dockerfile(v3)
+```
+# 1. node 이미지 사용
+FROM node:12
+# 2. 패키지 우선 복사
+COPY ./package* /usr/src/app/
+WORKDIR /usr/src/app
+RUN npm install
+# 3. 소스 복사
+COPY . /usr/src/app
+# 4. WEB 서버 실행 (Listen 포트 정의)
+EXPOSE 3000
+CMD node app.js
+```
+
+</br>
+
+- Dockerfile(v4)
+```
+# 1. node 이미지 사용
+FROM node:12-alpine
+# 2. 패키지 우선 복사
+COPY ./package* /usr/src/app/
+WORKDIR /usr/src/app
+RUN npm install
+# 3. 소스 복사
+COPY . /usr/src/app
+# 4. WEB 서버 실행 (Listen 포트 정의)
+EXPOSE 3000
+CMD node app.js
+```
+
+</br>
+
+### FROM
+```
+FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]
+```
+- 베이스 이미지 지정
+- FROM ubuntu:latest
+- FROM node:12
+- FROM python:3
+
+</br>
+
+### COPY
+```
+COPY [--chown=<user>:<group>] <src>... <dest>
+```
+- 파일 또는 디렉토리 추가
+- COPY index.html /var/www/html/
+- COPY ./app /usr/src/app
+
+</br>
+
+### RUN
+```
+RUN <command>
+```
+- 명령어 실행
+- RUN apt-get update
+- RUN npm install
+
+</br>
+
+### WORKDIR
+```
+WORKDIR /path/to/workdir
+```
+- 작업 디렉토리 변경
+- WORKDIR /app
+
+</br>
+
+### EXPOSE
+```
+WORKDIR /path/to/workdir
+```
+- 컨테이너에서 사용하는 포트 정보
+- EXPOSE 8000
+
+</br>
+
+### CMD
+```
+CMD ["executable","param1","param2"]
+CMD command param1 param2
+```
+- 컨테이너 생성시 실행할 명령어
+- CMD ["node", "app.js"]
+- CMD node app.js
+
+</details>
+</br>
