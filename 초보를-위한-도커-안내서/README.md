@@ -999,4 +999,16 @@ CMD command param1 param2
   - 깃허브 처름 private이 있으나 무료버전은 하나밖에 사용불가
 
   </details>
+
+  <details markdown="1">
+<summary>3. 이미지 저장소</summary>
+
+## 4. 도커 배포 기본
+### 배포하기
+```
+docker run -d -p 3000:3000 subicura/app
+```
+- 컨테이너 실행 = 이미지 pull + 컨테이너 start
+- 도커 허브에 올리는 순간 아무나 사용할수있다. (public 한정)
+  </details>
 </br>
