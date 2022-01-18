@@ -1011,6 +1011,8 @@ docker run -d -p 3000:3000 subicura/app
 - 컨테이너 실행 = 이미지 pull + 컨테이너 start
 - 도커 허브에 올리는 순간 아무나 사용할수있다. (public 한정)
   </details>
+
+  </br>
   
   <details markdown="1">
 <summary>5. Nginx를 이용한 정적 페이지 서버 만들기</summary>
@@ -1045,6 +1047,60 @@ $ docker build -t lab02/exam1 .
 $ docker run -d --rm \
   -p 50000:80 \
   lab02/exam1
+```
+</details>
+</br>
+
+<details markdown="1">
+<summary>6. Hellonode 실습</summary>
+
+## 6. Hellonode 실습
+### 실습한파일
+**server.js**
+
+```js
+const http = require('http');
+const os = require('os');
+
+const port = process.env.PORT || 8080;
+
+process.on('SIGINT', function() {
+  console.log('shutting down...');
+  process.exit(1);
+});
+
+var handleRequest = function(request, response) {
+  console.log(`Received request for URL: ${request.url}`);
+  response.writeHead(200);
+  response.end(`Hello, World!\nHostname: ${os.hostname()}\n`);
+};
+
+var www = http.createServer(handleRequest);
+www.listen(port, () => {
+  console.log(`server listening on port ${port}`);
+});
+```
+
+</br>
+
+**Dockerfile**
+
+```
+FROM   node:12-alpine
+COPY   server.js /app/
+EXPOSE 8080
+CMD    ["node", "/app/server.js"]
+```
+
+</br>
+
+**run**
+
+```
+$ docker build -t hellonode .
+$ docker run --rm -d \
+  -p 60000:8080 \
+  hellonode
 ```
 </details>
 </br>
