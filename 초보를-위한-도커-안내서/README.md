@@ -1011,4 +1011,40 @@ docker run -d -p 3000:3000 subicura/app
 - 컨테이너 실행 = 이미지 pull + 컨테이너 start
 - 도커 허브에 올리는 순간 아무나 사용할수있다. (public 한정)
   </details>
+  
+  <details markdown="1">
+<summary>5. Nginx를 이용한 정적 페이지 서버 만들기</summary>
+
+## 5. Nginx를 이용한 정적 페이지 서버 만들기
+### 실습한파일
+**index.html**
+
+```
+<html>
+  <head>
+    <title>도커 이미지 예제</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <h1>Nginx 서버를 도커 이미지로 만들었습니다.</h1>
+  </body>
+</html>
+```
+
+**Dockerfile**
+
+```
+FROM nginx
+COPY index.html /usr/share/nginx/html/index.html
+```
+
+**run**
+
+```
+$ docker build -t lab02/exam1 .
+$ docker run -d --rm \
+  -p 50000:80 \
+  lab02/exam1
+```
+</details>
 </br>
