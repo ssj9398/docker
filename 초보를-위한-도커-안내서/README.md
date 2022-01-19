@@ -1000,6 +1000,8 @@ CMD command param1 param2
 
   </details>
 
+</br>
+
   <details markdown="1">
 <summary>4. 도커 배포 기본</summary>
 
@@ -1141,6 +1143,41 @@ services:
       - ./ghost_data:/var/lib/ghost/content
     environment:
       url: http://localhost:60000
+
+```
+
+
+</details>
+</br>
+
+<details markdown="1">
+<summary>8. guestBook 배포</summary>
+
+## 8. guestBook 배포
+### 실습한파일
+
+
+**Dockerfile**
+
+```
+version: '3'
+services:
+  frontend:
+    image: subicura/guestbook-frontend:latest
+    environment:
+      PORT: 8000
+      GUESTBOOK_API_ADDR: backend:8000
+    ports:
+      - "62000:8000"
+  backend:
+    image: subicura/guestbook-backend:latest
+    environment:
+      PORT: 8000
+      GUESTBOOK_DB_ADDR: mongodb:27017
+    restart: always
+  mongodb:
+    image: mongo:4
+
 
 ```
 
