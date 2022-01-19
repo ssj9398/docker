@@ -1184,3 +1184,48 @@ services:
 
 </details>
 </br>
+
+<details markdown="1">
+<summary>9. workshop-voting 생성(여러개의 서비스 하나의 docker파일로 생성)</summary>
+
+## 9. workshop-voting 생성(여러개의 서비스 하나의 docker파일로 생성)
+### 실습한파일
+
+
+**Dockerfile**
+
+```
+# $ cd vote
+# $ docker build -t voting-vote .
+# $ cd worker
+# $ docker build -t voting-worker .
+# $ cd result
+# $ docker build -t voting-result .
+
+version: '3'
+
+services:
+  vote:
+    image: voting-vote
+    ports:
+      - "60001:80"
+  redis:
+    image: redis:alpine
+  worker:
+    image: voting-worker
+  db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+  result:
+    image: voting-result
+    ports:
+      - "60002:80"
+
+
+
+```
+
+
+</details>
+</br>
