@@ -1,7 +1,7 @@
 # 1. 도커컴포즈란?
 
 <details markdown="1">
-<summary>설치</summary>
+<summary>1. 설치</summary>
 
 ## 설치
 
@@ -22,3 +22,40 @@ sudo chmod +x /usr/local/bin/docker-compose
 </details>
 </br>
 
+<details markdown="1">
+<summary>2. 도커 컴포즈의 장점</summary>
+
+## 도커 컴포즈의 장점(사용하는 이유)
+
+### 1. docker 실행 명령어를 일일이 입력하기가 복잡해서
+1. 예시 1) nginx 컨테이너 실행
+```
+docker run -it nginx
+```
+
+2. 예시 2) nginx 컨테이너 실행 + 호스트의 8080 포트 연결
+```docker
+docker run -it -p 8080:80 nginx
+```
+
+3. 예시 3) nginx 컨테이너 실행 + 호스트의 8080 포트 연결 + 컨테이너 종료시 자동 삭제
+```docker
+docker run -it -p 8080:80 --rm nginx
+```
+
+4. 예시 4) nginx 컨테이너 실행 + 호스트의 8080 포트 연결 + 컨테이너 종료시 자동 삭제 + 호스트의 디렉터리를 컨테이너 안에 링크
+```html
+# ~/project/nginx/index.html
+<html>
+<body>
+<h1>Hello Docker-Compose</h1>
+</body>
+</html>
+```
+
+```docker
+docker run -it -p 8080:80 --rm -v $(pwd):/usr/share/nginx/html/ nginx
+```
+
+</details>
+</br>
