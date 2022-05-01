@@ -159,5 +159,71 @@ docker run -d --rm --name django2 \
   - bridge: 해당 네트워크 안에서만 통신 가능
   - host: 호스트와 똑같은 네트워크 환경
   - none: 아무 네트워크도 사용하지 않음
+
+### 4. 이 모든 것을 간단한 명령어로 관리하고 싶어서
+```docker
+# 실행 명령어와 종료 명령어
+docker network create --driver bridge web-service
+​
+docker run --rm -d --name postgres \
+  --network web-service \
+  -p 5432:5432 \
+  -e POSTGRES_DB=djangosample \
+  -e POSTGRES_USER=sampleuser \
+  -e POSTGRES_PASSWORD=samplesecret \
+  postgres
+​
+docker run -d --rm --name django1 \
+  --network web-service \
+  -p 8000:8000 \
+  -e DJANGO_DB_HOST=db \
+  --link postgres:db \
+  django-sample
+​
+docker kill django1 postgres
+​
+docker network rm web-service
+
+```
+
+- docker-compose.yml
+```
+version: '3'
+​
+volumes:
+  postgres_data: {}
+​
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgres/data
+    environment:
+      - POSTGRES_DB=djangosample
+      - POSTGRES_USER=sampleuser
+      - POSTGRES_PASSWORD=samplesecret
+​
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile-dev
+    volumes:
+      - ./:/app/
+    command: ["./manage.py", "runserver", "0:8000"]
+    environment:
+     - DJANGO_DB_HOST=db
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 8000:8000
+```
+
+-  도커 컴포즈로 실행하고 종료하는 방법
+```
+docker-compose up -d
+​
+docker-compose down
+```
 </details>
 </br>
