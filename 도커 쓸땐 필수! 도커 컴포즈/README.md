@@ -94,5 +94,70 @@ docker run -d --rm \
   --link postgres:db \
   django-sample
 ```
+
+### 3. 특정 컨테이너끼리만 통신할 수 있는 가상 네트워크 환경을 편리하게 관리하고 싶어서
+1. 예시 1) postgres 컨테이너 실행 + django1 컨테이너 연결
+```docker
+docker run --rm -d --name postgres \
+  -e POSTGRES_DB=djangosample \
+  -e POSTGRES_USER=sampleuser \
+  -e POSTGRES_PASSWORD=samplesecret \
+  postgres
+​
+docker run -d --rm --name django1 \
+  -p 8000:8000 \
+  -e DJANGO_DB_HOST=db \
+  --link postgres:db \
+  django-sample
+```
+
+2. 예시 2) postgres 컨테이너는 호스트의 다른 컨테이너들이 모두 접근할 수 있음
+```docker
+docker run -d --rm --name django2 \
+  -p 8001:8000 \
+  -e DJANGO_DB_HOST=db \
+  --link postgres:db \
+  django-sample
+```
+
+3. 예시 3) postgres 컨테이너 + django1 컨테이너만 통신할 수 있는 가상 네트워크 만들기
+```docker
+# 도커 네트워크 살펴보기
+docker network ls
+```
+
+```docker
+# 도커 네트워크 생성하기
+docker network create --driver bridge web-service
+​
+docker network ls
+```
+
+```docker
+# 컨테이너 실행하기
+docker run --rm -d --name postgres \
+  --network web-service \
+  -e POSTGRES_DB=djangosample \
+  -e POSTGRES_USER=sampleuser \
+  -e POSTGRES_PASSWORD=samplesecret \
+  postgres
+​
+docker run -d --rm --name django1 \
+  --network web-service \
+  -p 8000:8000 \
+  -e DJANGO_DB_HOST=db \
+  --link postgres:db \
+  django-sample
+​
+docker run -d --rm --name django2 \
+  -p 8001:8000 \
+  -e DJANGO_DB_HOST=db \
+  --link postgres:db \
+  django-sample
+```
+- docker의 네트워크 모드 종류
+  - bridge: 해당 네트워크 안에서만 통신 가능
+  - host: 호스트와 똑같은 네트워크 환경
+  - none: 아무 네트워크도 사용하지 않음
 </details>
 </br>
