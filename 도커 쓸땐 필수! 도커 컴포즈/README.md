@@ -232,6 +232,8 @@ docker-compose down
 <summary> 실습 - NGINX 서버를 도커 컴포즈로 실행하기 </summary>
 
 ## 실습 - NGINX 서버를 도커 컴포즈로 실행하기
+- Ghost시스템 앞단에 NGINX 웹서버 달기
+  - 처리 성능을 높이거나 여타 다른기능을 사용할 수 있다.
 ### 도커로 NGINX 컨테이너 실행하기
 #### docker로 ghost 이미지 실행하기
 - dockerfile
@@ -270,5 +272,50 @@ services:
       - ghost_data:/var/lib/ghost/content
 ```
 
+### Ghost 시스템과 NGINX 연결하기
+```docker
+# docker-compose.yml
+version: '3'
+
+volumes: 
+  ghost_data: {}
+
+services:
+  ghost:
+    image: ghost
+    volumes:
+      - ghost_data:/var/lib/ghost/content
+    environment:
+      - 0
+  nginx:
+    image: nginx
+    volumes: 
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8000:80
+```
+
+- nginx.conf 파일 생성
+```docker
+# nginx.conf
+events {
+  worker_connections 1024;
+}
+
+http {
+  upstream ghost {
+    server ghost:2368;
+  }
+  
+  server {
+    listen 80;
+    server_name _;
+
+    location / {
+      proxy_pass http://ghost;
+    }
+  }
+}
+```
 </details>
 </br>
