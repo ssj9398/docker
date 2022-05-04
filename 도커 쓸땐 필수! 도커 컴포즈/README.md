@@ -251,3 +251,18 @@ mkdir content
 docker run --rm -p 2368:2368 --name blog -v $(pwd)/content:/var/lib/ghost/content ghost
 ```
 
+#### docker-compose로 변환하기
+```dockerfile
+version: '3'
+
+volumes: 
+  ghost_data: {}
+
+services:
+  ghost:
+    image: ghost
+    ports:
+      - "2368:2368"
+    volumes:
+      - ghost_data:/var/lib/ghost/content
+```
