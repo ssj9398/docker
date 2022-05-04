@@ -29,17 +29,17 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 ### 1. docker 실행 명령어를 일일이 입력하기가 복잡해서
 1. 예시 1) nginx 컨테이너 실행
-```
+```dockerfile
 docker run -it nginx
 ```
 
 2. 예시 2) nginx 컨테이너 실행 + 호스트의 8080 포트 연결
-```docker
+```dockerfile
 docker run -it -p 8080:80 nginx
 ```
 
 3. 예시 3) nginx 컨테이너 실행 + 호스트의 8080 포트 연결 + 컨테이너 종료시 자동 삭제
-```docker
+```dockerfile
 docker run -it -p 8080:80 --rm nginx
 ```
 
@@ -53,13 +53,13 @@ docker run -it -p 8080:80 --rm nginx
 </html>
 ```
 
-```docker
+```dockerfile
 docker run -it -p 8080:80 --rm -v $(pwd):/usr/share/nginx/html/ nginx
 ```
 
 ### 2. 컨테이너끼리 연결하기 편해서
 - 준비) django-sample 이미지를 빌드합니다
-```docker
+```dockerfile
 git clone https://github.com/raccoonyy/django-sample-for-docker-compose.git django-sample
 
 cd django-sample
@@ -68,7 +68,7 @@ docker build -t django-sample .
 ```
 
 1. 예시 1) django 컨테이너 실행 + postgres 컨테이너 실행
-```docker
+```dockerfile
 docker run --rm -d --name django \
   -p 8000:8000 \
   django-sample
@@ -81,7 +81,7 @@ docker run --rm -d --name postgres \
 ```
 
 2. 예시 2) postgres 컨테이너 실행 + django 컨테이너 실행 + 서로 연결하기
-```docker
+```dockerfile
 docker run --rm -d --name postgres \
   -e POSTGRES_DB=djangosample \
   -e POSTGRES_USER=sampleuser \
@@ -97,7 +97,7 @@ docker run -d --rm \
 
 ### 3. 특정 컨테이너끼리만 통신할 수 있는 가상 네트워크 환경을 편리하게 관리하고 싶어서
 1. 예시 1) postgres 컨테이너 실행 + django1 컨테이너 연결
-```docker
+```dockerfile
 docker run --rm -d --name postgres \
   -e POSTGRES_DB=djangosample \
   -e POSTGRES_USER=sampleuser \
@@ -112,7 +112,7 @@ docker run -d --rm --name django1 \
 ```
 
 2. 예시 2) postgres 컨테이너는 호스트의 다른 컨테이너들이 모두 접근할 수 있음
-```docker
+```dockerfile
 docker run -d --rm --name django2 \
   -p 8001:8000 \
   -e DJANGO_DB_HOST=db \
@@ -121,19 +121,19 @@ docker run -d --rm --name django2 \
 ```
 
 3. 예시 3) postgres 컨테이너 + django1 컨테이너만 통신할 수 있는 가상 네트워크 만들기
-```docker
+```dockerfile
 # 도커 네트워크 살펴보기
 docker network ls
 ```
 
-```docker
+```dockerfile
 # 도커 네트워크 생성하기
 docker network create --driver bridge web-service
 ​
 docker network ls
 ```
 
-```docker
+```dockerfile
 # 컨테이너 실행하기
 docker run --rm -d --name postgres \
   --network web-service \
@@ -161,7 +161,7 @@ docker run -d --rm --name django2 \
   - none: 아무 네트워크도 사용하지 않음
 
 ### 4. 이 모든 것을 간단한 명령어로 관리하고 싶어서
-```docker
+```dockerfile
 # 실행 명령어와 종료 명령어
 docker network create --driver bridge web-service
 ​
@@ -187,7 +187,7 @@ docker network rm web-service
 ```
 
 - docker-compose.yml
-```
+```dockerfile
 version: '3'
 ​
 volumes:
@@ -220,10 +220,34 @@ services:
 ```
 
 -  도커 컴포즈로 실행하고 종료하는 방법
-```
+```dockerfile
 docker-compose up -d
 ​
 docker-compose down
 ```
 </details>
 </br>
+
+## 실습 - NGINX 서버를 도커 컴포즈로 실행하기
+### 도커로 NGINX 컨테이너 실행하기
+#### docker로 ghost 이미지 실행하기
+- dockerfile
+```dockerfile
+docker run -it --name blog --rm -p 2368:2368 ghost
+```
+- 컨테이너 종료
+```dockerfile
+docker run --rm -p 2368:2368 --name blog ghost
+```
+- ghost란 간단한 블로깅 시스템
+
+- 블로그 데이터는 영속적이어야하므로, 데이터가 로컬 디렉토리에 저장되게 해보기
+```
+# 디렉토리 만들기
+mkdir content
+```
+
+```dockerfile
+docker run --rm -p 2368:2368 --name blog -v $(pwd)/content:/var/lib/ghost/content ghost
+```
+
