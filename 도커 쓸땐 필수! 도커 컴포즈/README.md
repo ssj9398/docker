@@ -228,6 +228,9 @@ docker-compose down
 </details>
 </br>
 
+<details markdown="1">
+<summary> 실습 - NGINX 서버를 도커 컴포즈로 실행하기 </summary>
+
 ## 실습 - NGINX 서버를 도커 컴포즈로 실행하기
 ### 도커로 NGINX 컨테이너 실행하기
 #### docker로 ghost 이미지 실행하기
@@ -266,3 +269,6 @@ services:
     volumes:
       - ghost_data:/var/lib/ghost/content
 ```
+
+</details>
+</br>
